@@ -3,22 +3,24 @@
 <title>VKS — Admin</title><link rel="stylesheet" href="/admin/admin.css"></head><body>
 <section id="login" class="login"><form id="lf" novalidate><h1>VKS <small>ADMIN</small></h1>
 <label>usuario<input id="u" autocomplete="username"></label><label>contraseña<input id="pw" type="password" autocomplete="current-password"></label>
-<button class="btn">ingresar</button><p id="lerr" role="alert"></p>
-<p class="note">Demo: usuario <b>admin</b> / contraseña <b>vks2026</b>. Esto NO es seguridad real: la clave está visible en admin.js. Para producción usar un backend con autenticación.</p></form></section>
-<div id="app" hidden><header><b>VKS / ADMIN</b><nav><button data-v="dash" class="on">dashboard</button><button data-v="obras">obras</button><button data-v="media">media</button><a href="/index.html" target="_blank">ver sitio ↗</a><button id="out">salir</button></nav></header>
+<button class="btn">ingresar</button><p id="lerr" role="alert"></p><p class="note" id="lnote"></p></form></section>
+<div id="app" hidden><aside class="side"><b class="lg">VKS <small>ADMIN</small></b>
+<nav><button data-v="dash" class="on">resumen</button><button data-v="obras">obras</button><button data-v="media">media</button></nav>
+<div class="sf"><a href="/index.html" target="_blank">ver sitio ↗</a><button id="out">salir</button></div></aside>
 <main>
-<section data-s="dash"><div class="stats" id="stats"></div></section>
-<section data-s="obras" hidden><h2 id="ft">nueva obra</h2>
-<form id="pf" novalidate><input type="hidden" id="id">
-<label>nombre<input id="title" required></label><label>ubicación<input id="location" required></label>
-<label>país<select id="country"><option>Argentina</option><option>Italia</option></select></label><label>año<input id="year" type="number" min="1900" max="2100" required></label>
-<label>categoría<select id="category"><option>residencial</option><option>comercial</option><option>institucional</option><option>interiorismo</option><option>otros</option></select></label><label>superficie<input id="area" placeholder="280 m²"></label>
-<label>estado<select id="status"><option>publicada</option><option>borrador</option></select></label><label class="chk"><input id="featured" type="checkbox"> obra destacada (aparece en inicio, máx. 4)</label>
-<label class="full">descripción<textarea id="description" rows="3"></textarea></label>
-<label class="full">imagen principal (URL)<input id="coverImage" type="url" required placeholder="https://…"></label>
-<label class="full">galería (una URL por línea)<textarea id="gallery" rows="3"></textarea></label>
-<div class="full"><button class="btn">guardar obra</button> <button type="button" class="ghost" id="cancel">limpiar</button> <span id="pmsg" role="status"></span></div></form>
-<div class="tw"><table><thead><tr><th>obra</th><th>ubicación</th><th>año</th><th>categoría</th><th>estado</th><th>acciones</th></tr></thead><tbody id="rows"></tbody></table></div></section>
-<section data-s="media" hidden><h2>media</h2><p class="note">Solo se registran URLs. Subir archivos requiere un servicio (Cloudinary, Supabase Storage…): ver README.</p>
-<form id="mf"><input id="murl" type="url" placeholder="https://…" aria-label="URL de imagen"><button class="btn">agregar</button></form><div id="media" class="media"></div></section>
-</main></div><script src="/js/store.js"></script><script src="/admin/admin.js"></script></body></html>
+<section data-s="dash"><h2>resumen</h2><div class="stats" id="stats"></div><p class="note" id="mode"></p></section>
+<section data-s="obras" hidden><div class="tb"><h2>obras</h2><input id="q" placeholder="buscar obra…" aria-label="Buscar"><div class="chips"><button class="on" data-c="all">todas</button><button data-c="feat">destacadas</button><button data-c="draft">borradores</button></div><button class="btn" id="new">+ nueva obra</button></div><div id="list" class="list"></div></section>
+<section data-s="media" hidden><h2>media</h2><div class="drop" id="mdrop" tabindex="0" role="button">arrastrá imágenes acá o <u>elegí archivos</u><input type="file" id="mfile" accept="image/*" multiple hidden></div>
+<form id="mf"><input id="murl" type="url" placeholder="o pegá una URL https://…" aria-label="URL"><button class="btn">agregar</button></form><div id="media" class="media"></div></section>
+</main></div>
+<div id="ov" class="ov" hidden></div>
+<div id="dr" class="dr" aria-hidden="true"><form id="pf" novalidate><div class="dh"><h2 id="ft">nueva obra</h2><button type="button" id="cx" aria-label="Cerrar">✕</button></div><input type="hidden" id="id">
+<fieldset><legend>01 · básico</legend><label>nombre<input id="title"></label><label>ubicación<input id="location"></label><div class="g2"><label>país<select id="country"><option>Argentina</option><option>Italia</option></select></label><label>año<input id="year" type="number" min="1900" max="2100"></label></div></fieldset>
+<fieldset><legend>02 · detalle</legend><div class="g2"><label>categoría<select id="category"><option>residencial</option><option>comercial</option><option>institucional</option><option>interiorismo</option><option>otros</option></select></label><label>superficie<input id="area" placeholder="280 m²"></label></div><label>descripción<textarea id="description" rows="3"></textarea></label></fieldset>
+<fieldset><legend>03 · imágenes</legend><label>imagen principal (URL)<input id="coverImage" type="url" placeholder="https://…"></label><img id="cprev" class="prev" alt="" hidden>
+<div class="drop sm" id="cdrop" tabindex="0" role="button">subir imagen principal<input type="file" id="cfile" accept="image/*" hidden></div>
+<label>galería<input id="gurl" placeholder="pegá URL y Enter"></label><div class="drop sm" id="gdrop" tabindex="0" role="button">subir imágenes a la galería<input type="file" id="gfile" accept="image/*" multiple hidden></div><div id="gth" class="gth"></div></fieldset>
+<fieldset><legend>04 · publicación</legend><label>estado<select id="status"><option>publicada</option><option>borrador</option></select></label><label class="sw"><input id="featured" type="checkbox"><i></i>destacada en inicio (máx. 4)</label></fieldset>
+<div class="df"><button class="btn" id="sv">guardar obra</button><button type="button" class="ghost" id="cn">cancelar</button></div></form></div>
+<div id="toasts" aria-live="polite"></div>
+<script src="/js/config.js"></script><script src="/js/store.js"></script><script src="/admin/admin.js"></script></body></html>
