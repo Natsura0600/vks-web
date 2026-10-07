@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
-<title>VKS — Admin</title><link rel="stylesheet" href="admin.css"></head><body>
+<title>VKS — Admin</title><link rel="stylesheet" href="/admin/admin.css"></head><body>
 <section id="login" class="login"><form id="lf" novalidate><h1>VKS <small>ADMIN</small></h1>
 <label>usuario<input id="u" autocomplete="username"></label><label>contraseña<input id="pw" type="password" autocomplete="current-password"></label>
 <button class="btn">ingresar</button><p id="lerr" role="alert"></p>
 <p class="note">Demo: usuario <b>admin</b> / contraseña <b>vks2026</b>. Esto NO es seguridad real: la clave está visible en admin.js. Para producción usar un backend con autenticación.</p></form></section>
-<div id="app" hidden><header><b>VKS / ADMIN</b><nav><button data-v="dash" class="on">dashboard</button><button data-v="obras">obras</button><button data-v="media">media</button><a href="../index.html" target="_blank">ver sitio ↗</a><button id="out">salir</button></nav></header>
+<div id="app" hidden><header><b>VKS / ADMIN</b><nav><button data-v="dash" class="on">dashboard</button><button data-v="obras">obras</button><button data-v="media">media</button><a href="/index.html" target="_blank">ver sitio ↗</a><button id="out">salir</button></nav></header>
 <main>
 <section data-s="dash"><div class="stats" id="stats"></div></section>
 <section data-s="obras" hidden><h2 id="ft">nueva obra</h2>
@@ -21,4 +21,4 @@
 <div class="tw"><table><thead><tr><th>obra</th><th>ubicación</th><th>año</th><th>categoría</th><th>estado</th><th>acciones</th></tr></thead><tbody id="rows"></tbody></table></div></section>
 <section data-s="media" hidden><h2>media</h2><p class="note">Solo se registran URLs. Subir archivos requiere un servicio (Cloudinary, Supabase Storage…): ver README.</p>
 <form id="mf"><input id="murl" type="url" placeholder="https://…" aria-label="URL de imagen"><button class="btn">agregar</button></form><div id="media" class="media"></div></section>
-</main></div><script src="../js/store.js"></script><script src="admin.js"></script></body></html>
+</main></div><script src="/js/store.js"></script><script src="/admin/admin.js"></script></body></html>
